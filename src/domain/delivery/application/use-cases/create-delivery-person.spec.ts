@@ -10,7 +10,7 @@ describe('Creation delivery person', () => {
     sut = new CreateDeliveryPersonUseCase(inMemoryDeliveryPersonRepository)
   })
 
-  it('should be able to create an delivery person', async () => {
+  it('should be able to create a delivery person', async () => {
     const result = await sut.execute({
       cpf: '123.456.789-01',
       name: 'John Doe',

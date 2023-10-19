@@ -42,7 +42,7 @@ Segue abaixo o planejamento do projeto
 ### Entidades e agregados
 
 - Delivery person (Entregador)
-- Admin
+- Administrator
 - Package (Encomenda)
 - Recipient (Destinatário)
 - Delivery Address (Endereço de entrega)
