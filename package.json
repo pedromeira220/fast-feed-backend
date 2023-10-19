@@ -1,0 +1,31 @@
+{
+  "name": "fast-feed-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedromeira220/fast-feed-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pedromeira220/fast-feed-backend/issues"
+  },
+  "homepage": "https://github.com/pedromeira220/fast-feed-backend#readme",
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.1.0",
+    "@types/node": "^20.8.7",
+    "eslint": "^8.51.0",
+    "typescript": "^5.2.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "^0.34.6"
+  }
+}
