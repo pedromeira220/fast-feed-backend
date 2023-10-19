@@ -11,11 +11,12 @@ describe('Creation delivery person', () => {
   })
 
   it('should be able to create an delivery person', async () => {
-    const { deliveryPerson } = await sut.execute({
+    const result = await sut.execute({
       cpf: '123.456.789-01',
       name: 'John Doe',
     })
 
-    expect(deliveryPerson.name).toBe('John Doe')
+    expect(result.isSuccess()).toBe(true)
+    expect(result.value?.deliveryPerson.name).toBe('John Doe')
   })
 })
