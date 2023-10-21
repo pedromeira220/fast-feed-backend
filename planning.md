@@ -47,3 +47,4 @@ Segue abaixo o planejamento do projeto
 - Recipient (Destinatário)
 - Delivery Address (Endereço de entrega)
 - Address (Endereço)
+- Delivery (Entrega)

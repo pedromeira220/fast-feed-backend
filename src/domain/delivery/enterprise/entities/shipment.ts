@@ -2,16 +2,21 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-const status = ['WAITING', 'PICKED_UP', 'DELIVERED'] as const
-type Status = (typeof status)[number]
+export enum ShipmentStatus {
+  'WAITING' = 'WAITING',
+  'PICKED_UP' = 'PICKED_UP',
+  'DELIVERED' = 'DELIVERED',
+  'UNSET' = 'UNSET',
+}
 
 export interface ShipmentProps {
   name: string
-  status: Status
+  status: ShipmentStatus
   recipientId: UniqueEntityId
   createdAt: Date
   pickupDate: Date | null
   deliveryDate: Date | null
+  deliveryPersonId: UniqueEntityId | null
 }
 
 export class Shipment extends Entity<ShipmentProps> {
@@ -21,6 +26,10 @@ export class Shipment extends Entity<ShipmentProps> {
 
   get status() {
     return this.props.status
+  }
+
+  set status(value: ShipmentStatus) {
+    this.props.status = value
   }
 
   get recipientId() {
@@ -39,10 +48,23 @@ export class Shipment extends Entity<ShipmentProps> {
     return this.props.deliveryDate
   }
 
+  get deliveryPersonId() {
+    return this.props.deliveryPersonId
+  }
+
+  pickUp(deliveryPersonIdWhoPickedUp: UniqueEntityId) {
+    this.props.pickupDate = new Date()
+    this.props.deliveryPersonId = deliveryPersonIdWhoPickedUp
+  }
+
   static create(
     props: Optional<
       ShipmentProps,
-      'createdAt' | 'deliveryDate' | 'pickupDate' | 'status'
+      | 'createdAt'
+      | 'deliveryDate'
+      | 'pickupDate'
+      | 'status'
+      | 'deliveryPersonId'
     >,
     id?: UniqueEntityId,
   ) {
@@ -52,7 +74,8 @@ export class Shipment extends Entity<ShipmentProps> {
         createdAt: props.createdAt ?? new Date(),
         deliveryDate: props.deliveryDate ?? null,
         pickupDate: props.pickupDate ?? null,
-        status: props.status ?? 'WAITING',
+        status: props.status ?? ShipmentStatus.UNSET,
+        deliveryPersonId: props.deliveryPersonId ?? null,
       },
       id,
     )
