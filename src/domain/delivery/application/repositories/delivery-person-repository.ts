@@ -6,4 +6,7 @@ export abstract class DeliveryPersonRepository {
   abstract findById(
     deliveryPersonId: UniqueEntityId,
   ): Promise<DeliveryPerson | null>
+
+  abstract deleteById(deliveryPersonId: UniqueEntityId): Promise<void>
+  abstract save(deliveryPerson: DeliveryPerson): Promise<void>
 }

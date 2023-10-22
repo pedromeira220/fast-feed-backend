@@ -22,4 +22,20 @@ export class InMemoryDeliveryPersonRepository
 
     return deliveryPersonFound
   }
+
+  async deleteById(deliveryPersonId: UniqueEntityId): Promise<void> {
+    const itemIndex = this.items.findIndex((recipient) =>
+      recipient.id.equals(deliveryPersonId),
+    )
+
+    this.items.splice(itemIndex, 1)
+  }
+
+  async save(deliveryPerson: DeliveryPerson): Promise<void> {
+    const itemIndex = this.items.findIndex((recipient) =>
+      deliveryPerson.id.equals(recipient.id),
+    )
+
+    this.items[itemIndex] = deliveryPerson
+  }
 }

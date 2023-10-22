@@ -11,8 +11,16 @@ export class DeliveryPerson extends Entity<DeliveryPersonProps> {
     return this.props.name
   }
 
+  set name(value: string) {
+    this.props.name = value
+  }
+
   get cpf() {
     return this.props.cpf
+  }
+
+  set cpf(value: string) {
+    this.props.cpf = value
   }
 
   static create(props: DeliveryPersonProps, id?: UniqueEntityId) {

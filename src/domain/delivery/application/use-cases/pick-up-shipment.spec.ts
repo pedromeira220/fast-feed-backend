@@ -3,7 +3,7 @@ import { makeShipment } from '@test/factories/make-shipment'
 import { ShipmentStatus } from '../../enterprise/entities/shipment'
 import { PickUpShipmentUseCase } from './pick-up-shipment'
 import { makeDeliveryPerson } from '@test/factories/make-deliver-person'
-import { InMemoryDeliveryPersonRepository } from '@test/repositories/in-memory-delivery-person-respository'
+import { InMemoryDeliveryPersonRepository } from '@test/repositories/in-memory-delivery-person-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { ShipmentCannotBePickedUpDueStatusError } from './errors/shipment-cannot-be-picked-up-due-status-error'
 

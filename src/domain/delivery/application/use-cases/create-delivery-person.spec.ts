@@ -1,4 +1,4 @@
-import { InMemoryDeliveryPersonRepository } from '../../../../../test/repositories/in-memory-delivery-person-respository'
+import { InMemoryDeliveryPersonRepository } from '../../../../../test/repositories/in-memory-delivery-person-repository'
 import { CreateDeliveryPersonUseCase } from './create-delivery-person'
 
 let inMemoryDeliveryPersonRepository: InMemoryDeliveryPersonRepository

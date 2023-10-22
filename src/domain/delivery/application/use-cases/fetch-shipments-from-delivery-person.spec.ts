@@ -1,6 +1,6 @@
 import { FetchShipmentsFromDeliveryPersonUseCase } from './fetch-shipments-from-delivery-person'
 import { InMemoryShipmentRepository } from '@test/repositories/in-memory-shipment-repository'
-import { InMemoryDeliveryPersonRepository } from '@test/repositories/in-memory-delivery-person-respository'
+import { InMemoryDeliveryPersonRepository } from '@test/repositories/in-memory-delivery-person-repository'
 import { makeShipment } from '@test/factories/make-shipment'
 import { makeDeliveryPerson } from '@test/factories/make-deliver-person'
 
