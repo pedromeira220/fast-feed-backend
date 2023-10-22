@@ -61,6 +61,7 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
   pickUp(deliveryPersonIdWhoPickedUp: UniqueEntityId) {
     this.props.pickupDate = new Date()
     this.props.deliveryPersonId = deliveryPersonIdWhoPickedUp
+    this.props.status = ShipmentStatus.PICKED_UP
   }
 
   static create(
