@@ -4,6 +4,7 @@ import {
   ShipmentProps,
 } from '@/domain/delivery/enterprise/entities/shipment'
 import { faker } from '@faker-js/faker'
+import { makeAddress } from './make-address'
 
 export const makeShipment = (
   override: Partial<ShipmentProps> = {},
@@ -13,6 +14,7 @@ export const makeShipment = (
     {
       name: faker.commerce.product(),
       recipientId: new UniqueEntityId(),
+      deliveryAddress: makeAddress(),
       ...override,
     },
     id,

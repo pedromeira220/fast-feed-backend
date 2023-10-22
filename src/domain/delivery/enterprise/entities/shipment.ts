@@ -1,6 +1,7 @@
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { Address } from './address'
 
 export enum ShipmentStatus {
   'WAITING' = 'WAITING',
@@ -17,9 +18,10 @@ export interface ShipmentProps {
   pickupDate: Date | null
   deliveryDate: Date | null
   deliveryPersonId: UniqueEntityId | null
+  deliveryAddress: Address
 }
 
-export class Shipment extends Entity<ShipmentProps> {
+export class Shipment extends AggregateRoot<ShipmentProps> {
   get name() {
     return this.props.name
   }
@@ -50,6 +52,10 @@ export class Shipment extends Entity<ShipmentProps> {
 
   get deliveryPersonId() {
     return this.props.deliveryPersonId
+  }
+
+  get deliveryAddress() {
+    return this.props.deliveryAddress
   }
 
   pickUp(deliveryPersonIdWhoPickedUp: UniqueEntityId) {

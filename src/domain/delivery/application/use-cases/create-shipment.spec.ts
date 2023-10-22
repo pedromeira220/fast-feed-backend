@@ -2,6 +2,7 @@ import { InMemoryShipmentRepository } from '@test/repositories/in-memory-shipmen
 import { CreateShipmentUseCase } from './create-shipment'
 import { InMemoryRecipientRepository } from '@test/repositories/in-memory-recipient-repository'
 import { makeRecipient } from '@test/factories/make-recipient'
+import { makeAddress } from '@test/factories/make-address'
 
 let inMemoryShipmentRepository: InMemoryShipmentRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository
@@ -23,9 +24,23 @@ describe('Creation shipment', () => {
 
     inMemoryRecipientRepository.items.push(recipient)
 
+    const address = makeAddress()
+
     const result = await sut.execute({
       name: 'Shipment 1',
       recipientId: recipient.id.toString(),
+      address: {
+        city: address.city,
+        complement: address.complement,
+        country: address.country,
+        district: address.district,
+        latitude: address.coordinate.latitude,
+        longitude: address.coordinate.longitude,
+        number: address.number,
+        state: address.state,
+        street: address.street,
+        zipCode: address.zipCode,
+      },
     })
 
     expect(result.isSuccess()).toBe(true)

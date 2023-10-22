@@ -1,7 +1,15 @@
-import { ShipmentRepository } from '@/domain/delivery/application/repositories/shipment-repository'
-import { Shipment } from './../../src/domain/delivery/enterprise/entities/shipment'
+import {
+  FindManyNearbyDeliveryPersonParams,
+  ShipmentRepository,
+} from '@/domain/delivery/application/repositories/shipment-repository'
+import {
+  Shipment,
+  ShipmentStatus,
+} from './../../src/domain/delivery/enterprise/entities/shipment'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { PaginationParams } from '@/core/repositories/pagination-params'
+import { getDistanceBetweenCoordinates } from '@/domain/delivery/application/utils/get-distance-between-coordinates'
+import { Coordinate } from '@/domain/delivery/enterprise/entities/value-objects/coordinate'
 
 export class InMemoryShipmentRepository implements ShipmentRepository {
   public items: Shipment[] = []
@@ -49,6 +57,59 @@ export class InMemoryShipmentRepository implements ShipmentRepository {
     })
 
     const paginatedShipments = shipmentsFromDeliveryPerson.slice(
+      paginationParams.itemsPerPage * paginationParams.pageNumber,
+      paginationParams.itemsPerPage * (paginationParams.pageNumber + 1),
+    )
+
+    return paginatedShipments
+  }
+
+  async findManyNearbyDeliveryPerson(
+    {
+      deliveryPersonId,
+      deliveryPersonLatitude,
+      deliveryPersonLongitude,
+    }: FindManyNearbyDeliveryPersonParams,
+    paginationParams: PaginationParams,
+  ): Promise<Shipment[]> {
+    const shipmentsFromDeliveryPerson = this.items.filter((shipment) => {
+      if (!shipment.deliveryPersonId) return false
+
+      return shipment.deliveryPersonId.equals(deliveryPersonId)
+    })
+
+    const unassignedPendingShipments = this.items.filter((shipment) => {
+      if (shipment.status !== ShipmentStatus.PICKED_UP)
+        if (shipment.status !== ShipmentStatus.WAITING) return false
+
+      if (shipment.deliveryPersonId) return false
+
+      return true
+    })
+
+    const nearbyShipments = [
+      ...shipmentsFromDeliveryPerson,
+      ...unassignedPendingShipments,
+    ].filter((shipment) => {
+      const distance = getDistanceBetweenCoordinates(
+        Coordinate.create({
+          latitude: shipment.deliveryAddress.coordinate.latitude,
+          longitude: shipment.deliveryAddress.coordinate.longitude,
+        }),
+        Coordinate.create({
+          latitude: deliveryPersonLatitude,
+          longitude: deliveryPersonLongitude,
+        }),
+      )
+
+      const MAX_DISTANCE_IN_KILOMETERS = 20
+
+      if (distance > MAX_DISTANCE_IN_KILOMETERS) return false
+
+      return true
+    })
+
+    const paginatedShipments = nearbyShipments.slice(
       paginationParams.itemsPerPage * paginationParams.pageNumber,
       paginationParams.itemsPerPage * (paginationParams.pageNumber + 1),
     )
