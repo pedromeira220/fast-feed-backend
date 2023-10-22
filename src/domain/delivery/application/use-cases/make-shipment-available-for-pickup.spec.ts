@@ -15,7 +15,9 @@ describe('Make shipment available for pickup', () => {
   })
 
   it('should be able to make a shipment available for pickup', async () => {
-    const previousCreatedShipment = makeShipment()
+    const previousCreatedShipment = makeShipment({
+      status: ShipmentStatus.UNSET,
+    })
 
     inMemoryShipmentRepository.items.push(previousCreatedShipment)
 

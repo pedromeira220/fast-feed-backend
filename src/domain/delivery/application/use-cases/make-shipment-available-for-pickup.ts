@@ -29,6 +29,8 @@ export class MakeShipmentAvailableForPickupUseCase {
 
     shipmentFound.status = ShipmentStatus.WAITING
 
+    await this.shipmentRepository.save(shipmentFound)
+
     return success(null)
   }
 }

@@ -2,6 +2,7 @@ import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { Address } from './address'
+import { DeliveryConfirmationPhoto } from './delivery-confirmation-photo'
 
 export enum ShipmentStatus {
   'WAITING' = 'WAITING',
@@ -19,6 +20,7 @@ export interface ShipmentProps {
   deliveryDate: Date | null
   deliveryPersonId: UniqueEntityId | null
   deliveryAddress: Address
+  deliveryConfirmationPhoto: DeliveryConfirmationPhoto | null
 }
 
 export class Shipment extends AggregateRoot<ShipmentProps> {
@@ -58,10 +60,20 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
     return this.props.deliveryAddress
   }
 
+  get deliveryConfirmationPhoto() {
+    return this.props.deliveryConfirmationPhoto
+  }
+
   pickUp(deliveryPersonIdWhoPickedUp: UniqueEntityId) {
     this.props.pickupDate = new Date()
     this.props.deliveryPersonId = deliveryPersonIdWhoPickedUp
-    this.props.status = ShipmentStatus.PICKED_UP
+    this.status = ShipmentStatus.PICKED_UP
+  }
+
+  delivery(deliveryConfirmationPhoto: DeliveryConfirmationPhoto) {
+    this.props.deliveryDate = new Date()
+    this.props.deliveryConfirmationPhoto = deliveryConfirmationPhoto
+    this.status = ShipmentStatus.DELIVERED
   }
 
   static create(
@@ -72,6 +84,7 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
       | 'pickupDate'
       | 'status'
       | 'deliveryPersonId'
+      | 'deliveryConfirmationPhoto'
     >,
     id?: UniqueEntityId,
   ) {
@@ -83,6 +96,7 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
         pickupDate: props.pickupDate ?? null,
         status: props.status ?? ShipmentStatus.UNSET,
         deliveryPersonId: props.deliveryPersonId ?? null,
+        deliveryConfirmationPhoto: props.deliveryConfirmationPhoto ?? null,
       },
       id,
     )

@@ -48,3 +48,5 @@ Segue abaixo o planejamento do projeto
 - Delivery Address (Endereço de entrega)
 - Address (Endereço)
 - Delivery (Entrega)
+- Photo (Foto)
+- Delivery Confirmation Photo (Foto de confirmação de entrega)
