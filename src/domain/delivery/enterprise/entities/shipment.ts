@@ -28,6 +28,10 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
     return this.props.name
   }
 
+  set name(value: string) {
+    this.props.name = value
+  }
+
   get status() {
     return this.props.status
   }
