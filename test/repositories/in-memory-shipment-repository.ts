@@ -10,12 +10,15 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { getDistanceBetweenCoordinates } from '@/domain/delivery/application/utils/get-distance-between-coordinates'
 import { Coordinate } from '@/domain/delivery/enterprise/entities/value-objects/coordinate'
+import { DomainEvents } from '@/core/events/domain-events'
 
 export class InMemoryShipmentRepository implements ShipmentRepository {
   public items: Shipment[] = []
 
   async create(shipment: Shipment): Promise<void> {
     this.items.push(shipment)
+
+    DomainEvents.dispatchEventsForAggregate(shipment.id)
   }
 
   async findById(shipmentId: UniqueEntityId): Promise<Shipment | null> {
@@ -44,6 +47,8 @@ export class InMemoryShipmentRepository implements ShipmentRepository {
     )
 
     this.items[itemIndex] = shipment
+
+    DomainEvents.dispatchEventsForAggregate(shipment.id)
   }
 
   async findManyByDeliveryPersonId(
