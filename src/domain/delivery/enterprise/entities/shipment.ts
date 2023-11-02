@@ -9,6 +9,7 @@ export enum ShipmentStatus {
   'PICKED_UP' = 'PICKED_UP',
   'DELIVERED' = 'DELIVERED',
   'UNSET' = 'UNSET',
+  'RETURNED' = 'RETURNED',
 }
 
 export interface ShipmentProps {
@@ -18,6 +19,7 @@ export interface ShipmentProps {
   createdAt: Date
   pickupDate: Date | null
   deliveryDate: Date | null
+  returnDate: Date | null
   deliveryPersonId: UniqueEntityId | null
   deliveryAddress: Address
   deliveryConfirmationPhoto: DeliveryConfirmationPhoto | null
@@ -56,6 +58,10 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
     return this.props.deliveryDate
   }
 
+  get returnDate() {
+    return this.props.returnDate
+  }
+
   get deliveryPersonId() {
     return this.props.deliveryPersonId
   }
@@ -80,6 +86,11 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
     this.status = ShipmentStatus.DELIVERED
   }
 
+  returnShipment() {
+    this.status = ShipmentStatus.RETURNED
+    this.props.returnDate = new Date()
+  }
+
   static create(
     props: Optional<
       ShipmentProps,
@@ -89,6 +100,7 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
       | 'status'
       | 'deliveryPersonId'
       | 'deliveryConfirmationPhoto'
+      | 'returnDate'
     >,
     id?: UniqueEntityId,
   ) {
@@ -101,6 +113,7 @@ export class Shipment extends AggregateRoot<ShipmentProps> {
         status: props.status ?? ShipmentStatus.UNSET,
         deliveryPersonId: props.deliveryPersonId ?? null,
         deliveryConfirmationPhoto: props.deliveryConfirmationPhoto ?? null,
+        returnDate: props.returnDate ?? null,
       },
       id,
     )
