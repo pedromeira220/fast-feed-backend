@@ -31,9 +31,6 @@ describe('Mark shipment as returned', () => {
       shipmentId: previousCreatedShipment.id.toString(),
     })
 
-    console.log('> result.isSuccess', result.isSuccess())
-    console.log('> result.value', result.value)
-
     expect(result.isSuccess()).toBe(true)
     expect(inMemoryShipmentRepository.items).toHaveLength(1)
     expect(inMemoryShipmentRepository.items[0].status).toBe(
