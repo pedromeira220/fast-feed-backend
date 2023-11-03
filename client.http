@@ -1,0 +1,12 @@
+@base_url = http://localhost:3333
+
+
+# @name create_recipient
+POST {{base_url}}/recipients
+Content-Type: application/json
+
+{
+  "name": "Recipient Teste 1"
+}
+
+###

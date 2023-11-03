@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    platform: linux/amd64
+    restart: always
+    container_name: "fast-feed-backend"
+    ports:
+      - "3333:3333"
+    command: npm run start:dev
+    volumes:
+      - .:/usr/app
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    container_name: "fast-feed-database"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "fast_feed"
+      POSTGRES_PASSWORD: "fast_feed_db_password"
+      POSTGRES_DB: "fast-feed-db-postgres"
+    ports:
+      - "3003:5432"
+volumes:
+  pgdata:
