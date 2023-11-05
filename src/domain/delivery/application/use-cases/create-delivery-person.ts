@@ -1,6 +1,7 @@
 import { DeliveryPerson } from './../../enterprise/entities/delivery-person'
 import { DeliveryPersonRepository } from '../repositories/delivery-person-repository'
 import { Either, success } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface CreateDeliveryPersonUseCaseRequest {
   name: string
@@ -14,6 +15,7 @@ type CreateDeliveryPersonUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateDeliveryPersonUseCase {
   constructor(private deliveryPersonRepository: DeliveryPersonRepository) {}
 

@@ -17,3 +17,11 @@ model Recipient {
 
   @@map("recipients")
 }
+
+model DeliveryPerson {
+  id   String @id @default(uuid())
+  name String
+  cpf  String
+
+  @@map("delivery_persons")
+}
