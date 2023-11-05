@@ -2,6 +2,7 @@ import { Either, failure, success } from '@/core/either'
 import { RecipientRepository } from '../repositories/recipient-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { RecipientNotFoundError } from './errors/recipient-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteRecipientUseCaseRequest {
   recipientId: string
@@ -9,6 +10,7 @@ interface DeleteRecipientUseCaseRequest {
 
 type DeleteRecipientUseCaseResponse = Either<RecipientNotFoundError, null>
 
+@Injectable()
 export class DeleteRecipientUseCase {
   constructor(private recipientRepository: RecipientRepository) {}
 

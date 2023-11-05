@@ -17,15 +17,34 @@ export class PrismaRecipientRepository implements RecipientRepository {
     })
   }
 
-  findById(recipientId: UniqueEntityId): Promise<Recipient | null> {
-    throw new Error('Method not implemented.')
+  async findById(recipientId: UniqueEntityId): Promise<Recipient | null> {
+    const recipientFound = await this.prisma.recipient.findUnique({
+      where: {
+        id: recipientId.toString(),
+      },
+    })
+
+    if (!recipientFound) {
+      return null
+    }
+
+    return PrismaRecipientMapper.toDomain(recipientFound)
   }
 
-  deleteById(recipientId: UniqueEntityId): Promise<void> {
-    throw new Error('Method not implemented.')
+  async deleteById(recipientId: UniqueEntityId): Promise<void> {
+    await this.prisma.recipient.delete({
+      where: {
+        id: recipientId.toString(),
+      },
+    })
   }
 
-  save(recipient: Recipient): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(recipient: Recipient): Promise<void> {
+    await this.prisma.recipient.update({
+      where: {
+        id: recipient.id.toString(),
+      },
+      data: PrismaRecipientMapper.toPrisma(recipient),
+    })
   }
 }

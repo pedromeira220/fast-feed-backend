@@ -1,10 +1,5 @@
 import { CreateRecipientUseCase } from '@/domain/delivery/application/use-cases/create-recipient'
-import {
-  Body,
-  Controller,
-  InternalServerErrorException,
-  Post,
-} from '@nestjs/common'
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
 import { RecipientPresenter } from '../presenter/recipient-presenter'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
@@ -30,9 +25,11 @@ export class CreateRecipientController {
     })
 
     if (result.isFailure()) {
-      throw new InternalServerErrorException()
+      throw new BadRequestException()
     }
 
-    return RecipientPresenter.toHttp(result.value.recipient)
+    return {
+      recipient: RecipientPresenter.toHttp(result.value.recipient),
+    }
   }
 }

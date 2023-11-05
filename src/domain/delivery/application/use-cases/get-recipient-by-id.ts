@@ -3,6 +3,7 @@ import { RecipientRepository } from '../repositories/recipient-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '../../../../core/errors/errors/resource-not-found-error'
 import { Recipient } from '../../enterprise/entities/recipient'
+import { Injectable } from '@nestjs/common'
 
 interface GetRecipientByIdUseCaseRequest {
   recipientId: string
@@ -15,6 +16,7 @@ type GetRecipientByIdUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class GetRecipientByIdUseCase {
   constructor(private recipientRepository: RecipientRepository) {}
 

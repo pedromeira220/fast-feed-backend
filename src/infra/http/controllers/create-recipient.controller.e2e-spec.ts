@@ -1,7 +1,6 @@
 import request from 'supertest'
 import { Test } from '@nestjs/testing'
 import { AppModule } from '@/infra/app.module'
-import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
@@ -11,7 +10,7 @@ describe('Create recipient (E2E)', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule, DatabaseModule],
+      imports: [AppModule],
     }).compile()
 
     prisma = moduleRef.get(PrismaService)

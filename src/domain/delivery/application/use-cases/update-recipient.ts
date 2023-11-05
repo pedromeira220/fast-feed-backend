@@ -2,14 +2,16 @@ import { Either, failure, success } from '@/core/either'
 import { RecipientRepository } from '../repositories/recipient-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '../../../../core/errors/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface UpdateRecipientUseCaseRequest {
   recipientId: string
-  name: string
+  name?: string
 }
 
 type UpdateRecipientUseCaseResponse = Either<ResourceNotFoundError, null>
 
+@Injectable()
 export class UpdateRecipientUseCase {
   constructor(private recipientRepository: RecipientRepository) {}
 
@@ -25,7 +27,7 @@ export class UpdateRecipientUseCase {
       return failure(new ResourceNotFoundError())
     }
 
-    recipient.name = name
+    if (name !== undefined) recipient.name = name
 
     await this.recipientRepository.save(recipient)
 
